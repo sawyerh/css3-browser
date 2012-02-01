@@ -1,0 +1,191 @@
+body{
+    background: #f2f2f2;
+}
+
+// ==============================================
+//  Mixins
+// ==============================================
+@mixin ellipsis {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+@mixin border-radius($radius: 5px) {
+    -webkit-background-clip: padding-box;
+    -webkit-border-radius: $radius;
+    -moz-background-clip: padding-box;
+    -moz-border-radius: $radius;
+    border-radius: $radius;
+    background-clip: padding-box;
+}
+@mixin box-shadow($shadow) {
+  -webkit-box-shadow: $shadow;
+  -moz-box-shadow: $shadow;
+  box-shadow: $shadow;
+}
+@mixin double-box-shadow($shadow, $shadow2) {
+  -webkit-box-shadow: $shadow, $shadow2;
+  -moz-box-shadow: $shadow, $shadow2;
+  box-shadow: $shadow, $shadow2;
+}
+@mixin vertical-gradient($start: #000, $stop: #FFF) {
+    background: -webkit-gradient(linear, left top, left bottom, from($start), to($stop));
+    background: -webkit-linear-gradient($start, $stop);
+    background: -moz-linear-gradient(center top, $start 0%, $stop 100%);
+    background: -moz-gradient(center top, $start 0%, $stop 100%);
+    background: -ms-linear-gradient($start 0%, $stop 100%);
+    background: linear-gradient($start, $stop);
+}
+
+@mixin tab-bg($image, $image2, $start, $stop) {
+    background: $image, $image2, -webkit-gradient(linear, left top, left bottom, from($start), to($stop));
+    background: $image, $image2, -webkit-linear-gradient($start, $stop);
+    background: $image, $image2, -moz-linear-gradient(center top, $start 0%, $stop 100%);
+    background: $image, $image2, -moz-gradient(center top, $start 0%, $stop 100%);
+    background: $image, $image2, -ms-linear-gradient($start 0%, $stop 100%);
+    background: $image, $image2, linear-gradient($start, $stop);
+}
+
+// ==============================================
+//  Browser
+// ==============================================
+$browser_max_width: 625px;
+$browser_sprite: url(images/browser-sprite.png);
+
+.browser{
+    @include box-shadow(0 3px 30px rgba(#000000, 0.32));
+    @include border-radius(5px);
+    width: 100%;
+    max-width: $browser_max_width;
+    margin: 100px auto;
+    border: 1px solid rgba(#000000, 0.2);
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 12px;
+    
+    .top-bar{
+        background: #d4d4d4;
+        @include vertical-gradient(#e9e9e9, #bcbcbc);
+        @include border-radius(5px 5px 0 0);
+        height: 35px;
+        padding-left: 12px;
+    }
+    
+    .center-bar{
+        background: #d8d9d9;
+        @include vertical-gradient(#e5e6e6, #cfcfcf);
+        @include box-shadow(inset 0 1px 0 #f9f9f9);
+        border-top: 1px solid #979797;
+        border-bottom: 1px solid #7a7a7a;
+        height: 30px;
+        padding: 5px 12px 0;
+    }
+    
+    .window{
+        @include border-radius(0 0 5px 5px);
+        height: 375px;
+        background: #fff;
+    }
+    
+    .orb{
+        $inset: inset 0 1px 3px rgba(#000000, 0.85);
+        $out: 0 1px 0 rgba(#ffffff, 0.7);
+        @include double-box-shadow($inset, $out);
+        @include border-radius(30px);
+        display: block;
+        float: left;
+        margin: 13px 8px 0 0;
+        width: 12px;
+        height: 12px;
+        position: relative;
+        overflow: hidden;
+        
+        &:after{
+            @include border-radius(2px 2px 0 0);
+            @include vertical-gradient(rgba(#ffffff, 1), rgba(#ffffff, 0));
+            content: '';
+            display: block;
+            height: 3px;
+            width: 6px;
+            position: absolute;
+            top: 2px;
+            left: 3px;
+        }
+        
+        &:before{
+            @include border-radius(10px);
+            @include box-shadow(0 0 5px rgba(#ffffff, 1));
+            content: '';
+            display: block;
+            height: 10px;
+            bottom: -10px;
+            left: 0;
+            right: 0;
+            position: absolute;
+        }
+        
+        &.red{
+            background: #f0554d;
+            @include vertical-gradient(#e63933, #f3736b);
+        }
+        
+        &.green{
+            background: #7dbb5d;
+            @include vertical-gradient(#7dbb5d, #afdb92);
+        }
+        
+        &.yellow{
+            background: #fda12e;
+            @include vertical-gradient(#fda12e, #ffcc64);
+        }
+    }
+    
+    .tab{
+        $tab-padding-left: 20px;
+        $tab-padding-right: 26px;
+        
+        $image: $browser_sprite left top no-repeat;
+        $image2: $browser_sprite right -56px no-repeat;
+        @include tab-bg($image, $image2, #f9f9f9, #e7e6e6);
+        @include ellipsis;
+        
+        position: relative;
+        top: 11px;
+        height: 24px;
+        width: 215px - $tab-padding-left - $tab-padding-right;
+        padding: 2px $tab-padding-right 0 $tab-padding-left;
+        display: block;
+        float: left;
+        color: #111;
+        font-size: 11px;
+        
+        &:after{
+            content: '';
+            display: block;
+            height: 1px;
+            left: 14px;
+            right: 14px;
+            top: 0;
+            position: absolute;
+            border-top: 1px solid #9f9f9f;
+        }
+        
+        img{
+            position: relative;
+            top: 3px;
+        }
+    }
+    
+    .url{
+        $inset: inset 1px 1px 0 #f2f2f2;
+        $out: 0 1px 0 rgba(#ffffff, 0.8);
+        @include border-radius(4px);
+        @include double-box-shadow($inset, $out);
+        background: $browser_sprite 5px -108px no-repeat #fff;
+        border: 1px solid rgba(#000000, 0.25);
+        display: block;
+        padding: 5px 4px 5px 27px;
+        color: #b8b8b8;
+        line-height: 1;
+    }
+    
+}
